@@ -18,14 +18,15 @@ const getItemById = async (req, res) => {
   try {
     const item = await getItemByIdService(itemId);
     //console.log('item', item)
-    if(item) {
-      item.length > 0 
-      ? res.status(200).send({message: 'Item', data: item}) 
-      : res.status(404).send({message: 'Item not found, could not be updated', data: []})
-    };
+    
+    res.status(200).send({message: 'Item', data: item});
   } catch (error) {
-    console.error(error);
-    res.status(500).send({message: error.message, data: []});
+    console.log(error);
+    if(error.message === 'Not found') {
+      res.status(404).send({message: `Libro id: ${itemId} no encontrado`, data: []});
+    } else {
+      res.status(500).send({message: error.message, data: []});
+    }
   }
 
 };
@@ -49,14 +50,16 @@ const updateItem = async (req, res) => {
   try {
     const updatedItem = await updateItemService(itemId, itemData);
     //console.log('updatedItem', updatedItem);
-    if(updatedItem) {
-      updatedItem.length > 0 
-      ? res.status(200).send({message: 'Item updated', data: updatedItem}) // TODO ver si es un id o el objeto item
-      : res.status(404).send({message: 'Item not found, could not be updated', data: []})
-    };
+
+      res.status(200).send({message: `Libro ${itemId} actualizado`, data: updatedItem});
+    
   } catch (error) {
     console.log(error);
-    res.status(500).send({message: error.message, data: []});
+    if(error.message === 'Not found') {
+      res.status(404).send({message: `Libro id: ${itemId} no encontrado`, data: []});
+    } else {
+      res.status(500).send({message: error.message, data: []});
+    }
   }
 };
 
@@ -64,15 +67,16 @@ const deleteItem = async (req, res) => {
   const itemId = req.params.id;
   try {
     const itemDeleted = await deleteItemService(itemId);
-    //console.log('itemDeleted', itemDeleted);
-    if(itemDeleted) {
-      itemDeleted.length > 0 
-      ? res.status(200).send({message: 'Item deleted', data: {id: itemId}}) 
-      : res.status(404).send({message: 'Item not found, could not be deleted', data: []})
-    };
+    //console.log(itemDeleted)
+    
+    res.status(200).send({message: `Libro ${itemId} eliminado`, data: itemId});
   } catch (error) {
     console.log(error);
-    res.status(500).send({message: error.message, data: []});
+    if(error.message === 'Not found') {
+      res.status(404).send({message: `Libro id: ${itemId} no encontrado`, data: []});
+    } else {
+      res.status(500).send({message: error.message, data: []});
+    }
   }
 };
 
