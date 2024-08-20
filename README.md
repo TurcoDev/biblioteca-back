@@ -12,6 +12,7 @@ Este proyecto incluye dependencias como:**TODO: ir agregando a medida que las in
 - NodeJs versión: 20+
 - NodeJs Framework: Express
 - Variables de entorno: Dotenv
+- Driver SQL: mysql2
 - ORM: Sequelize
 - Autentificación (token):
 - Encriptación:
