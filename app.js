@@ -13,12 +13,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Importar rutas
 const usuariosRouter = require('./src/routes/usuarioRouter.js');
 const itemsRouter = require('./src/routes/itemsRoutes.js');
-
+const AulasRouter = require('./src/routes/Aulas.routes.js')
 
 
 // Rutas para usuarios
 app.use('/usuarios', usuariosRouter);
 app.use('/items', itemsRouter);
+app.use('/aulas', AulasRouter)
 
 
 // Puerto de escucha
