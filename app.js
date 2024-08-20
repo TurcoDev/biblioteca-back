@@ -1,4 +1,5 @@
 // Importar módulos necesarios
+require('dotenv').config(); // Para usar variables de entorno
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -11,12 +12,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Importar rutas
 const usuariosRouter = require('./src/routes/usuarioRouter.js');
-
+const itemsRouter = require('./src/routes/itemsRoutes.js');
 
 
 
 // Rutas para usuarios
 app.use('/usuarios', usuariosRouter);
+app.use('/items', itemsRouter);
 
 
 // Puerto de escucha

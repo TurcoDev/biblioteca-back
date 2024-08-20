@@ -1,4 +1,4 @@
-const connection = require('../../util/db');
+const connection = require('../../config/db.js');
 
 // Crear el modelo de Usuario
 const Usuario = {};

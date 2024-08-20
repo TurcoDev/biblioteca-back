@@ -2,14 +2,14 @@ const {getItemsService, getItemByIdService, createItemService, updateItemService
 
 const getItems = async (req, res) => {
   try {
-    //const items = await getItemsService();
+    const items = await getItemsService();
     
-    console.log('items', items)
+    //console.log('items', items)
     
     res.status(200).send({message: 'Items', data: items});
   } catch (error) {
     console.error(error);
-    res.status(500).send({data: error.message, data: []});
+    res.status(500).send({message: error.message, data: []});
   }
 };
 
