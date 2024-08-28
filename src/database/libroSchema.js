@@ -9,11 +9,13 @@
   nro_ejemplar: '',
   origen: '',
   } */
-
+// Iniciamos una instancia de Sequelize y la conexión a la base de datos
 const Sequelize = require('sequelize-cockroachdb')
 const sequelize = require('../config/db.js');
 
-  const LibrosSchema = sequelize.define("libros", {
+// Esema de la tabla libros de la base de datos
+// TODO falta definir bien cada campo
+const LibrosSchema = sequelize.define("libros", {
     libro_id:{
         type:Sequelize.DataTypes.INTEGER,
         autoIncrement:true,

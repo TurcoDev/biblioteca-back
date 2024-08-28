@@ -1,21 +1,22 @@
 // Modelos
 // TODO importar los modelos de sequelize
 
-// Datos de prueba, eliminar cuando se conecte realmente a la db
+/* // Datos de prueba, eliminar cuando se conecte realmente a la db
 const {librosTest} = require('../data/libros');
 // Conexioon a la base de datos
-const db = require('../config/db.js');
+const db = require('../config/db.js'); */
 
+// Conexion a la base de datos
 const Sequelize = require('sequelize-cockroachdb')
 const sequelize = require('../config/db.js');
-
+// Esquema de prueba
 const LibrosSchema = require('../database/libroSchema.js');
 
 const getItemsService = async () => {
   try {
     //const items = await items.findAll();
     /* const items = librosTest; */
-    const items = LibrosSchema.findAll();
+    const items = LibrosSchema.findAll(); // conecta con la db y trae todos los items
 
     return items;
   } catch (error) {
@@ -43,8 +44,8 @@ const createItemService = async (itemData) => {
     itemData.libro_id = libroId;
     librosTest.push(itemData);
     console.log('librosTest', librosTest); */
-    let item = await LibrosSchema.sync({force: false})
-    item = await LibrosSchema.create(itemData)
+    let item = await LibrosSchema.sync({force: false}) // crea la tabla y si ya existe la actualiza, no la vuelve a crear
+    item = await LibrosSchema.create(itemData) // inserta los datos que vienen en itemData
     
     return item;
   } catch (error) {
