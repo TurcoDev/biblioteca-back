@@ -27,18 +27,8 @@ app.use('/authors', authorsRouter);
 // Puerto de escucha
 const PORT = process.env.PORT || 3001;
 
-async function main(){
-    try {
-        await conexion.sync({force:false})
-        console.log("conexion exitosa");
-        app.listen(PORT, ()=>{
-            console.log("corriendo en el puerto",PORT);
-        })
-    } catch (error) {
-        console.log("error de conexion");
-    }
-}
+app.listen(PORT, ()=>{
+    console.log("corriendo en el puerto",PORT);
 
-main()
-
-
+})
+            
