@@ -2,6 +2,7 @@
 const sequelize = require('./src/config/db.js'); 
 const User = require('./src/services/models/userModel.js');
 const Role = require('./src/services/models/roleModel.js');
+const Author = require('./src/services/models/authorsModel.js');
 
 // Hay que importar los demas modelos que se necesiten subir a la Cucaracha.
 
