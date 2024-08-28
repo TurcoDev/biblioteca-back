@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+/* const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -16,4 +16,16 @@ connection.connect((err) => {
   console.log('Conectado a la base de datos MySQL');
 });
 
-module.exports = connection;
+module.exports = connection; */
+
+const Sequelize = require("sequelize-cockroachdb");
+
+// Connect to CockroachDB through Sequelize.
+const connectionString = process.env.DATABASE_URL
+const sequelize = new Sequelize(connectionString, {
+  dialectOptions: {
+    application_name: "biblioteca-back",
+  }
+});
+
+module.exports = sequelize

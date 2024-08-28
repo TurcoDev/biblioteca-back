@@ -14,6 +14,7 @@ Este proyecto incluye dependencias como:**TODO: ir agregando a medida que las in
 - Variables de entorno: Dotenv
 - Driver SQL: mysql2
 - ORM: Sequelize
+- DB cluster: CrockroachDB
 - Autentificación (token):
 - Encriptación:
 - Documentación:

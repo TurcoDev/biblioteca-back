@@ -6,10 +6,16 @@ const {librosTest} = require('../data/libros');
 // Conexioon a la base de datos
 const db = require('../config/db.js');
 
+const Sequelize = require('sequelize-cockroachdb')
+const sequelize = require('../config/db.js');
+
+const LibrosSchema = require('../database/libroSchema.js');
+
 const getItemsService = async () => {
   try {
     //const items = await items.findAll();
-    const items = librosTest;
+    /* const items = librosTest; */
+    const items = LibrosSchema.findAll();
 
     return items;
   } catch (error) {
@@ -33,12 +39,14 @@ const getItemByIdService = async (itemId) => {
 
 const createItemService = async (itemData) => {
   try {
-    const libroId = librosTest.length + 1;
+    /* const libroId = librosTest.length + 1;
     itemData.libro_id = libroId;
     librosTest.push(itemData);
-    console.log('librosTest', librosTest);
+    console.log('librosTest', librosTest); */
+    let item = await LibrosSchema.sync({force: false})
+    item = await LibrosSchema.create(itemData)
     
-    return itemData;
+    return item;
   } catch (error) {
     throw error;
   }
