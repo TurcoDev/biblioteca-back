@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const usuariosRouter = require('./src/routes/usuarioRoutes.js');
 const itemsRouter = require('./src/routes/itemsRoutes.js');
 const aulasRouter = require('./src/routes/aulasRoutes.js');
-const authorsRouter = require('./src/routes/authors.js');
+const authorsRouter = require('./src/routes/authorsRoutes.js');
 
 
 // Rutas para usuarios

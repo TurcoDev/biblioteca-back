@@ -1,6 +1,3 @@
-// controllers/authorsController.js
-const Author = require('../models/Author');
-
 // Obtener todos los autores
 const getAuthors = async (req, res) => {
   try {
