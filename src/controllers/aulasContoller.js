@@ -1,4 +1,4 @@
-const {getAulasService, getAulaConIdService} = require('../services/Aulas.service.js')
+const {getAulasService, getAulaConIdService} = require('../services/models/aulasModel.js')
 
 const getAulas = async (req, res) => {
     try {
