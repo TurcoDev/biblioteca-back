@@ -1,21 +1,11 @@
-// TODO esto se cambia cuando se haga el modelo real con sequelize
-/* const LibroSchema = {
-  libro_id: '',
-  biblio_aulica_id: '',
-  nro_libro_id: '',
-  título: '',
-  isbn: '',
-  año_publicación: '',
-  nro_ejemplar: '',
-  origen: '',
-  } */
+
 // Iniciamos una instancia de Sequelize y la conexión a la base de datos
 const Sequelize = require('sequelize-cockroachdb')
 const sequelize = require('../config/db.js');
 
 // Esema de la tabla libros de la base de datos
 // TODO falta definir bien cada campo
-const LibrosSchema = sequelize.define("libros", {
+const ItemSchema = sequelize.define("libros", {
     libro_id:{
         type:Sequelize.DataTypes.INTEGER,
         autoIncrement:true,
@@ -51,4 +41,4 @@ const LibrosSchema = sequelize.define("libros", {
     },
 })
 
-  module.exports = LibrosSchema;
+  module.exports = ItemSchema;

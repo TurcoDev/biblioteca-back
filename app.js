@@ -11,15 +11,15 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Importar rutas
-const usuariosRouter = require('./src/routes/usuarioRouter.js');
+const usuariosRouter = require('./src/routes/usuarioRoutes.js');
 const itemsRouter = require('./src/routes/itemsRoutes.js');
-const AulasRouter = require('./src/routes/Aulas.routes.js')
+const aulasRouter = require('./src/routes/aulasRoutes.js')
 
 
 // Rutas para usuarios
 app.use('/usuarios', usuariosRouter);
 app.use('/items', itemsRouter);
-app.use('/aulas', AulasRouter)
+app.use('/aulas', aulasRouter)
 
 
 // Puerto de escucha

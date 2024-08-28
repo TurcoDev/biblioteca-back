@@ -1,4 +1,4 @@
-const {getItemsService, getItemByIdService, createItemService, updateItemService, deleteItemService} = require('../services/items.service');
+const {getItemsService, getItemByIdService, createItemService, updateItemService, deleteItemService} = require('../services/models/itemsModel');
 
 const getItems = async (req, res) => {
   try {
