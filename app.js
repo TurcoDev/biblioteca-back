@@ -3,7 +3,7 @@ require('dotenv').config(); // Para usar variables de entorno
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-
+const conexion = require('./src/config/db.js')
 
 
 // Middleware para parsear JSON en las solicitudes
@@ -24,6 +24,19 @@ app.use('/aulas', aulasRouter)
 
 // Puerto de escucha
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+
+async function main(){
+    try {
+        await conexion.sync({force:false})
+        console.log("conexion exitosa");
+        app.listen(PORT, ()=>{
+            console.log("corriendo en el puerto",PORT);
+        })
+    } catch (error) {
+        console.log("error de conexion");
+    }
+}
+
+main()
+
+
