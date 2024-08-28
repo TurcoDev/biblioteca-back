@@ -1,79 +1,83 @@
-const Usuario = require('../services/models/usuarioModel.js');
+const User = require('../services/models/userModel.js'); 
 
 // Obtener todos los usuarios
-exports.getAllUsuarios = (req, res) => {
-  Usuario.getAll((err, usuarios) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error al obtener usuarios' });
-    }
+exports.getAllUsuarios = async (req, res) => {
+  try {
+    const usuarios = await User.findAll(); 
     res.json(usuarios);
-  });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
 };
 
 // Obtener un usuario por ID
-exports.getUsuarioById = (req, res) => {
+exports.getUsuarioById = async (req, res) => {
   const id = req.params.id;
-  Usuario.getById(id, (err, usuario) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error al obtener usuario' });
-    }
+  try {
+    const usuario = await User.findByPk(id); 
     if (!usuario) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
     res.json(usuario);
-  });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al obtener usuario' });
+  }
 };
 
 // Crear un nuevo usuario
-exports.createUsuario = (req, res) => {
-  const nuevoUsuario = {
-    nombre_usuario: req.body.nombre_usuario,
-    hash_contraseña: req.body.hash_contraseña,
-    correo: req.body.correo,
-    role_id: req.body.role_id,
-    es_moroso: req.body.es_moroso || false
-  };
+exports.createUsuario = async (req, res) => {
+  const { username, password_hash, email, role_id, is_moroso } = req.body;
 
-  Usuario.create(nuevoUsuario, (err, usuarioId) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error al crear usuario' });
-    }
-    res.status(201).json({ usuario_id: usuarioId });
-  });
+  try {
+    const nuevoUsuario = await User.create({
+      username,
+      password_hash,
+      email,
+      role_id,
+      is_moroso: is_moroso || false,
+    }); 
+    res.status(201).json(nuevoUsuario);
+  } catch (err) {
+    res.status(500).json({ error: 'Error al crear usuario' });
+  }
 };
 
 // Actualizar un usuario existente
-exports.updateUsuario = (req, res) => {
+exports.updateUsuario = async (req, res) => {
   const id = req.params.id;
-  const updatedUsuario = {
-    nombre_usuario: req.body.nombre_usuario,
-    hash_contraseña: req.body.hash_contraseña,
-    correo: req.body.correo,
-    role_id: req.body.role_id,
-    es_moroso: req.body.es_moroso
-  };
+  const { username, password_hash, email, role_id, is_moroso } = req.body;
 
-  Usuario.update(id, updatedUsuario, (err, affectedRows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error al actualizar usuario' });
-    }
-    if (affectedRows === 0) {
+  try {
+    const usuario = await User.findByPk(id);
+    if (!usuario) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
+
+    usuario.username = username;
+    usuario.password_hash = password_hash;
+    usuario.email = email;
+    usuario.role_id = role_id;
+    usuario.is_moroso = is_moroso;
+
+    await usuario.save(); 
     res.status(200).json({ message: 'Usuario actualizado correctamente' });
-  });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al actualizar usuario' });
+  }
 };
 
 // Eliminar un usuario
-exports.deleteUsuario = (req, res) => {
+exports.deleteUsuario = async (req, res) => {
   const id = req.params.id;
-  Usuario.delete(id, (err, affectedRows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error al eliminar usuario' });
-    }
+  try {
+    const affectedRows = await User.destroy({ where: { user_id: id } });
+
     if (affectedRows === 0) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
+
     res.status(200).json({ message: 'Usuario eliminado correctamente' });
-  });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al eliminar usuario' });
+  }
 };
