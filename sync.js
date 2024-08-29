@@ -1,7 +1,8 @@
 
 const sequelize = require('./src/config/db.js'); 
-const User = require('./src/services/models/userModel.js');
-const Role = require('./src/services/models/roleModel.js');
+const User = require('./src/models/userModel.js');
+const Role = require('./src/models/roleModel.js');
+const Book = require('./src/models/bookModel.js');
 
 // Hay que importar los demas modelos que se necesiten subir a la Cucaracha.
 
@@ -12,7 +13,6 @@ const Role = require('./src/services/models/roleModel.js');
 
     // Sincroniza todos los modelos con la base de datos
     await sequelize.sync({ alter: true }); 
-
 
     console.log('Todos los modelos se han sincronizado con la base de datos.');
 

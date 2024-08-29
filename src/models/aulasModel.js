@@ -1,5 +1,5 @@
 
-const {BibliotecasAulicas} = require('../../data/Aulas.js')
+const {BibliotecasAulicas} = require('../data/Aulas.js')
 
 const getAulasService = async () => {
     try {
