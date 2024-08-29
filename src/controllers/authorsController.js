@@ -10,14 +10,21 @@ const getAuthors = async (req, res) => {
 
 // Crear un nuevo autor
 const createAuthor = async (req, res) => {
-  try {
-    const { name } = req.body;
-    const newAuthor = await Author.create({ name });
-    res.status(201).json(newAuthor);
-  } catch (error) {
-    res.status(500).json({ message: 'Error al crear autor', error });
-  }
-};
+    try {
+      const { author_id, name } = req.body; // Asegúrate de recibir ambos campos
+  
+      // Verifica si author_id y name están presentes
+      if (!author_id || !name) {
+        return res.status(400).json({ message: 'author_id y name son requeridos' });
+      }
+  
+      // Crear un nuevo autor
+      const newAuthor = await Author.create({ author_id, name });
+      res.status(201).json(newAuthor);
+    } catch (error) {
+      res.status(500).json({ message: 'Error al crear autor', error });
+    }
+  };
 
 // Obtener un autor por ID
 const getAuthorById = async (req, res) => {
