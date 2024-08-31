@@ -1,16 +1,20 @@
-const Sequelize = require('sequelize-cockroachdb')
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.js');
 
-const ClassroomSchema = sequelize.define('classroom_libraries',{
-    classroom_libraries_id: {
-        type:Sequelize.DataTypes.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
-    },
-    name: {
-        type:Sequelize.DataTypes.TEXT,
-        allowNull:false
-    }
-})
+const classroomModel = sequelize.define('classroom_libraries', {
+  classroom_library_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    allowNull: false, 
+  },
+  name: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+  },
+}, {
+  tableName: 'Classroom_libraries',
+  timestamps: false, 
+});
 
-module.exports = ClassroomSchema
+module.exports = classroomModel;
+
