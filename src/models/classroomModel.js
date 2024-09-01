@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.js');
 
-const classroomModel = sequelize.define('classroom_libraries', {
+const Classroom = sequelize.define('Classroom', {
   classroom_library_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -16,5 +16,4 @@ const classroomModel = sequelize.define('classroom_libraries', {
   timestamps: false, 
 });
 
-module.exports = classroomModel;
-
+module.exports = Classroom;
