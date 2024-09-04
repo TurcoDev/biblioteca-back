@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const sectionsController = require('../controllers/sectionController');
+const sectionsController = require('../controllers/sectionsController');
 
 // Rutas de sections
 router.get('/', sectionsController.getAllSections);

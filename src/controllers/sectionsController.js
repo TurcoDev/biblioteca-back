@@ -1,4 +1,4 @@
-const Section = require('../models/sectionModel.js');
+const Section = require('../models/sectionsModel.js');
 
 // Obtener todas las secciones
 exports.getAllSections = async (req, res) => {
