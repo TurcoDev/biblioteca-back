@@ -1,4 +1,4 @@
-const userController = require('./usuarioController');
+const userController = require('./userController');
 
 // Ingresar al sistema con username y password
 // Se verifica si existe el usuario y si la contraseña es correcta
