@@ -17,6 +17,7 @@ const aulasRouter = require('./src/routes/aulasRoutes.js');
 const authorsRouter = require('./src/routes/authorsRoutes.js');
 const authRouter = require('./src/routes/authRoutes.js');
 const sectionsRouter = require('./src/routes/sectionsRoutes.js');
+const roleRouter = require('./src/routes/roleRoutes.js');
 
 
 // Rutas para usuarios
@@ -26,6 +27,7 @@ app.use('/books', booksRouter);
 app.use('/aulas', aulasRouter);
 app.use('/authors', authorsRouter);
 app.use('/sections', sectionsRouter);
+app.use('/roles', roleRouter);
 
 
 // Puerto de escucha
