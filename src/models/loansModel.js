@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.js');
 const Book = require('../models/bookModel.js'); // Asume que tienes un modelo de Book
+const User = require('../models/userModel.js'); // Asume que tienes un modelo de User
 
 const Loan = sequelize.define('Loan', {
   loan_id: {
@@ -11,6 +12,12 @@ const Loan = sequelize.define('Loan', {
   user_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: User,  // Asocia con el modelo User
+      key: 'user_id'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   },
   book_id: {
     type: DataTypes.INTEGER,
@@ -43,7 +50,8 @@ const Loan = sequelize.define('Loan', {
   timestamps: false, // Si no necesitas createdAt/updatedAt
 });
 
-// Definir relación con Book
+// Definir relaciones con Book y User
+Loan.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 Loan.belongsTo(Book, { foreignKey: 'book_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
 module.exports = Loan;
