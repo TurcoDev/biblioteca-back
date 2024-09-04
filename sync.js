@@ -4,6 +4,9 @@ const User = require('./src/models/userModel.js');
 const Role = require('./src/models/roleModel.js');
 const Author = require('./src/models/authorsModel.js');
 const Book = require('./src/models/bookModel.js');
+const Student = require('./src/models/studentsModel.js');
+const Loan = require('./src/models/loanModel.js');
+
 
 // Hay que importar los demas modelos que se necesiten subir a la Cucaracha.
 
