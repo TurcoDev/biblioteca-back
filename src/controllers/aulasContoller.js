@@ -1,9 +1,9 @@
-const {getAulasService, getAulaConIdService} = require('../models/aulasModel.js')
+const ClassroomModel = require('../models/aulasModel.js')
 
 const getAulas = async (req, res) => {
     try {
-      const Aulas = await getAulasService();
-      res.status(200).send({message: 'Aulas', data: Aulas});
+      const Aulas = await ClassroomModel.findAll();
+      res.status(200).json(Aulas);
     } catch (error) {
       console.error(error);
       res.status(500).send({message: error.message, data: []});
@@ -13,7 +13,11 @@ const getAulas = async (req, res) => {
   const getAulaById = async (req, res) => {
     const AulaId = req.params.id;
     try {
-      const Aula = await getAulaConIdService(AulaId);
+      const Aula = await ClassroomModel.findByPk();
+      if (!Aula) {
+        return res.status(404).json({ error: "Aula no encontrado "});
+      }
+      res.json(Aula);
       res.status(200).send({message: 'Aula', data: Aula}) 
     } catch (error) {
       console.error(error);
@@ -25,45 +29,43 @@ const getAulas = async (req, res) => {
   const AddAula = async (req, res)=>{
     const {name} = req.body
     try {
-      if(!name) {
-        return res.status(400).send("El nombre del aula es requerido");
-      }
-      const NewAula = await Classroom.create({
+      const Aula = await ClassroomModel.create({
         name
       })
-      res.status(201).send("Aula Creada")
-      console.log(NewAula);
+      res.status(201).json(Aula);
     } catch (error) {
-      res.status(500).send(error.message)
+      res.status(500).send({message: error.message, data: []});
     }
   }
 
   const UpdateAula = async (req, res)=>{
     const id = req.params.id
-    const name = req.body
+    const {name} = req.body
     try {
-      const aula = await Classroom.findByPk(id);
-      if(!aula){
-        res.status(404).send("Aula no encontrada")
-      }else{
-        Classroom.name = name
-        await Classroom.save()
+      const Aula = ClassroomModel.findByPk(id)
+      if (!Aula) {
+        return res.status(404).json({ error: 'Aula no encontrada' });
       }
+      Aula.name = name
+      await Aula.save()
+      res.status(200).json({ message: 'Aula actualizada correctamente' });
     } catch (error) {
-      res.status(500).send(error.message)
+      res.status(500).send({message: error.message, data: []});
     }
   }
 
   const DeleteAula = async (req, res)=>{
     const id = req.params.id
     try {
-      const Delete = await Classroom.destroy({ where: { classroom_library_id: id } });
-      if (Delete === 0) {
-        return res.status(404).send("Aula no encontrada");
-      }
-      res.status(200).send("Aula eliminada correctamente");
+      const DeleteAula = await ClassroomModel.destroy({ where: { classroom_library_id: id } });
+
+    if (DeleteAula === 0) {
+      return res.status(404).json({ error: 'Aula no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Aula eliminada correctamente' });
     } catch (error) {
-      res.status(500).send(error.message)
+      
     }
   }
 

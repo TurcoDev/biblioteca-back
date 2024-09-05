@@ -1,27 +1,19 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db.js');
 
-const {BibliotecasAulicas} = require('../data/Aulas.js')
+const Classroom = sequelize.define('Classroom', {
+  classroom_library_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement:true,
+  },
+  name: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+  },
+}, {
+  tableName: 'Classroom',
+  timestamps: false, 
+});
 
-const getAulasService = async () => {
-    try {
-      const Aulas = BibliotecasAulicas;
-      return Aulas;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-const getAulaConIdService = async (id) =>{
-    try {
-       const getItem = BibliotecasAulicas.find(Aula => id == Aula.id)
-       return getItem
-    } catch (error) {
-        throw error;
-        
-    }
-}
-
-module.exports = {
-    getAulasService,
-    getAulaConIdService
-}
-
+module.exports = Classroom;
