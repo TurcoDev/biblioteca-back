@@ -4,14 +4,9 @@ const User = require('./src/models/userModel.js');
 const Role = require('./src/models/roleModel.js');
 const Author = require('./src/models/authorsModel.js');
 const Book = require('./src/models/bookModel.js');
-<<<<<<< HEAD
 const Student = require('./src/models/studentsModel.js');
-const Loan = require('./src/models/loanModel.js');
-
-
-=======
+const Loan = require('./src/models/loansModel.js');
 const Classroom = require('./src/models/aulasModel.js');
->>>>>>> 774552203204972323d90e14a96912f1eaf40ed9
 // Hay que importar los demas modelos que se necesiten subir a la Cucaracha.
 
 (async () => {
