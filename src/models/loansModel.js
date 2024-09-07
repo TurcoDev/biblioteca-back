@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.js');
-const Book = require('../models/bookModel.js'); // Asume que tienes un modelo de Book
+const Book = require('./bookAuthorModel.js'); // Asume que tienes un modelo de Book
 const User = require('../models/userModel.js'); // Asume que tienes un modelo de User
 
 const Loan = sequelize.define('Loan', {
