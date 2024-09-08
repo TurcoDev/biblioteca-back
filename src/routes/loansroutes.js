@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const loansController = require('../controllers/loansController');
 
-// Rutas de sections
-router.get('/', loansController.getAllSections);
-router.get('/:id', loansController.getSectionById);
-router.post('/', loansController.createSection);
-router.put('/:id', loansController.updateSection);
-router.delete('/:id', loansController.deleteSection);
+// Rutas de Loans
+router.get('/', loansController.getAllLoans);
+router.get('/:id', loansController.getLoanById);
+router.post('/', loansController.createLoan);
+router.put('/:id', loansController.updateLoan);
+router.delete('/:id', loansController.deleteLoan);
 
 module.exports = router;

@@ -19,6 +19,7 @@ const authRouter = require('./src/routes/authRoutes.js');
 const sectionsRouter = require('./src/routes/sectionsRoutes.js');
 const roleRouter = require('./src/routes/roleRoutes.js');
 const bookAuthorRouter = require('./src/routes/bookAuthorRoutes.js')
+const loansRouter = require('./src/routes/loansRoutes.js')
 
 // Rutas para usuarios
 app.use('/',authRouter);
@@ -29,8 +30,9 @@ app.use('/authors', authorsRouter);
 app.use('/sections', sectionsRouter);
 app.use('/roles', roleRouter);
 app.use('/bookAuthors',bookAuthorRouter);
+app.use('/loans', loansRouter);
 
-// Puerto de escucha
+ // Puerto de escucha
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, ()=>{
