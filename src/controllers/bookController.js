@@ -1,106 +1,64 @@
-//const {getBooksService, getBookByIdService, createBookService, updateBookService, deleteBookService} = require('../services/models/bookModel');
-// Iniciamos una instancia de Sequelize y la conexión a la base de datos
-/* const Sequelize = require('sequelize-cockroachdb')
-const sequelize = require('../config/db.js'); */
-// Importamos el modelo
 const Book = require('../models/bookModel.js');
+const ClassroomLibrary = require('../models/classroomLibraryModel.js');
 
-
-const getBooks = async (req, res) => {
+exports.getAllBooks = async (req, res) => {
   try {
     const books = await Book.findAll();
-    
-    //console.log('books', books)
-    
-    res.status(200).send({message: 'Books', data: books});
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({message: error.message, data: []});
-  }
-};
-
-exports.getBooks = async (req, res) => {
-  try {
-    const books = await Book.findAll(); 
-    res.json(books);
+    res.status(200).json(books);
   } catch (err) {
-    res.status(500).json({ error: 'Error al obtener books' });
+    res.status(500).json({ error: err.message });
   }
 };
 
-const getBookById = async (req, res) => {
-  const bookId = req.params.id;
+exports.getBookById = async (req, res) => {
   try {
-    const book = await getBookByIdService(bookId);
-    //console.log('book', book)
-    
-    res.status(200).send({message: 'Book', data: book});
-  } catch (error) {
-    console.log(error);
-    if(error.message === 'Not found') {
-      res.status(404).send({message: `Libro id: ${bookId} no encontrado`, data: []});
+    const book = await Book.findByPk(req.params.id);
+    if (book) {
+      res.status(200).json(book);
     } else {
-      res.status(500).send({message: error.message, data: []});
+      res.status(404).json({ error: "Book not found" });
     }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-
 };
 
-const createBook = async (req, res) => {
-  const bookData = req.body;
+exports.createBook = async (req, res) => {
   try {
-    //const book = await createBookService(bookData);
-    //let book = await Book.sync({force: false}) // crea la tabla y si ya existe la actualiza, no la vuelve a crear
-    const book = await Book.create(bookData) // inserta los datos que vienen en bookData
-    
-    res.status(201).send({message: 'Book created', data:book});
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({message: error.message, data: []});
+    const newBook = await Book.create(req.body);
+    res.status(201).json(newBook);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-
 };
 
-const updateBook = async (req, res) => {
-  const bookId = req.params.id;
-  const bookData = req.body;
+exports.updateBook = async (req, res) => {
   try {
-    const updatedBook = await updateBookService(bookId, bookData);
-    //console.log('updatedBook', updatedBook);
-
-      res.status(200).send({message: `Libro ${bookId} actualizado`, data: updatedBook});
-    
-  } catch (error) {
-    console.log(error);
-    if(error.message === 'Not found') {
-      res.status(404).send({message: `Libro id: ${bookId} no encontrado`, data: []});
+    const [updated] = await Book.update(req.body, {
+      where: { book_id: req.params.id },
+    });
+    if (updated) {
+      const updatedBook = await Book.findByPk(req.params.id);
+      res.status(200).json(updatedBook);
     } else {
-      res.status(500).send({message: error.message, data: []});
+      res.status(404).json({ error: "Book not found" });
     }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-const deleteBook = async (req, res) => {
-  const bookId = req.params.id;
+exports.deleteBook = async (req, res) => {
   try {
-    const bookDeleted = await deleteBookService(bookId);
-    //console.log(bookDeleted)
-    
-    res.status(200).send({message: `Libro ${bookId} eliminado`, data: bookId});
-  } catch (error) {
-    console.log(error);
-    if(error.message === 'Not found') {
-      res.status(404).send({message: `Libro id: ${bookId} no encontrado`, data: []});
+    const deleted = await Book.destroy({
+      where: { book_id: req.params.id },
+    });
+    if (deleted) {
+      res.status(204).send();
     } else {
-      res.status(500).send({message: error.message, data: []});
+      res.status(404).json({ error: "Book not found" });
     }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-};
-
-module.exports = {
-  getBooks,
-  getBookById,
-  createBook,
-  updateBook,
-  deleteBook,
 };

@@ -16,19 +16,30 @@ const booksRouter = require('./src/routes/bookRoutes.js');
 const aulasRouter = require('./src/routes/Classroom.Routes.js');
 const authorsRouter = require('./src/routes/authorsRoutes.js');
 
-
 // Rutas para usuarios
-app.use('/usuarios', usuariosRouter);
-app.use('/books', booksRouter);
-app.use('/aulas', aulasRouter);
-app.use('/authors', authorsRouter);
+app.use('/', authRoutes);
+app.use('/autores', authorRoutes);
+app.use('/libros', bookRoutes);
+app.use('/libros-autor', booksAuthorsRoutes);
+app.use('/prestamos', loanRoutes);
+app.use('/roles', roleRoutes);
+app.use('/usuarios', userRoutes);
+app.use('/biblioteca', classroomLibraryRoutes);
+app.use('/secciones', sectionRoutes);
+app.use('/estudiantes', studentRoutes);
 
+conexion.authenticate()
+    .then(() => {
+        console.log('Conexión a la base de datos establecida con éxito.');
+    })
+    .catch(err => {
+        console.error('No se pudo conectar a la base de datos:', err);
+    });
 
 // Puerto de escucha
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, ()=>{
-    console.log("corriendo en el puerto",PORT);
+app.listen(PORT, () => {
+    console.log("corriendo en el puerto", PORT);
 
 })
-            

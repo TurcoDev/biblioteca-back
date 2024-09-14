@@ -1,20 +1,21 @@
 // src/models/Author.js
-const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.js');
+const { DataTypes } = require('sequelize-cockroachdb');
+const Book = require('./bookModel.js');
 
 const Author = sequelize.define('Author', {
   author_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false, // No autoIncrement, debe ser proporcionado manualmente
+    autoIncrement: true,
   },
   name: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING(255),
     allowNull: false,
   },
 }, {
+  timestamps: false,
   tableName: 'Authors',
-  timestamps: false, // Esto indica que no hay campos de timestamps (createdAt, updatedAt).
 });
 
 module.exports = Author;

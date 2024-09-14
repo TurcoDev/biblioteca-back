@@ -6,15 +6,25 @@ const Author = require('./src/models/authorsModel.js');
 const Book = require('./src/models/bookModel.js');
 const Classroom = require('./src/models/classroomModel.js')
 
-// Hay que importar los demas modelos que se necesiten subir a la Cucaracha.
+// Importar modelos
+require('./src/models/userModel.js');
+require('./src/models/roleModel.js');
+require('./src/models/authorsModel.js');
+require('./src/models/bookModel.js');
+require('./src/models/studentsModel.js');
+require('./src/models/loansModel.js');
+require('./src/models/classroomLibraryModel.js'); 
+require('./src/models/bookAuthorModel.js');
 
+// Ejecutar la sincronización de los modelos
 (async () => {
   try {
-    await sequelize.authenticate(); 
+    // Autenticación con la base de datos
+    await sequelize.authenticate();
     console.log('Conexión establecida correctamente.');
 
-    // Sincroniza todos los modelos con la base de datos
-    await sequelize.sync({ alter: true }); 
+    // Sincronizar modelos con la base de datos
+    await sequelize.sync({ alter: true });
 
     console.log('Todos los modelos se han sincronizado con la base de datos.');
 
