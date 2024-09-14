@@ -1,50 +1,59 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize-cockroachdb');
 const sequelize = require('../config/db.js'); 
-// Si tienes modelos para Teacher o ClassroomLibrary, deberías importarlos aquí
-// const Teacher = require('../models/teacherModel.js');
-// const ClassroomLibrary = require('../models/classroomLibraryModel.js');
+const User = require('./userModel');
+const ClassroomLibrary = require('./classroomLibraryModel');
 
 const Section = sequelize.define('Section', {
   section_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   year: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   shift: {
-    type: DataTypes.STRING(50),
-    allowNull: false
+    type: DataTypes.STRING(255),
+    allowNull: false,
   },
   name: {
-    type: DataTypes.STRING(100),
-    allowNull: false
+    type: DataTypes.STRING(255),
+    allowNull: false,
   },
   teacher_id: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
-      // Cambia 'Teacher' por el nombre correcto de tu modelo de profesor
-      model: 'Teacher', 
-      key: 'teacher_id'
-    }
+      model: User,
+      key: 'user_id',
+    },
   },
   classroom_library_id: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
-      // Cambia 'ClassroomLibrary' por el nombre correcto de tu modelo de biblioteca de aula
-      model: 'ClassroomLibrary',
-      key: 'classroom_library_id'
-    }
-  }
+      model: ClassroomLibrary,
+      key: 'classroom_library_id',
+    },
+  },
 }, {
+  timestamps: false,
   tableName: 'Sections',
-  timestamps: false
 });
 
-// Si tienes relaciones, puedes definirlas aquí, por ejemplo:
-// Section.belongsTo(Teacher, { foreignKey: 'teacher_id' });
-// Section.belongsTo(ClassroomLibrary, { foreignKey: 'classroom_library_id' });
+// Relación con Teacher (User)
+Section.belongsTo(User, {
+  foreignKey: 'teacher_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+// Relación con ClassroomLibrary
+Section.belongsTo(ClassroomLibrary, {
+  foreignKey: 'classroom_library_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
 
 module.exports = Section;

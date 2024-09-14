@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const sectionsController = require('../controllers/sectionsController');
+const sectionController = require('../controllers/sectionsController.js');
 
-// Rutas de sections
-router.get('/', sectionsController.getAllSections);
-router.get('/:id', sectionsController.getSectionById);
-router.post('/', sectionsController.createSection);
-router.put('/:id', sectionsController.updateSection);
-router.delete('/:id', sectionsController.deleteSection);
+router.get('/', sectionController.getAllSections);
+router.get('/:id', sectionController.getSectionById);
+router.post('/', sectionController.createSection);
+router.put('/:id', sectionController.updateSection);
+router.delete('/:id', sectionController.deleteSection);
 
 module.exports = router;

@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize-cockroachdb');
 const sequelize = require('../config/db.js');
-const Book = require('./bookAuthorModel.js'); // Asume que tienes un modelo de Book
+const Book = require('../models/bookModel.js'); // Asume que tienes un modelo de Book
 const User = require('../models/userModel.js'); // Asume que tienes un modelo de User
 
 const Loan = sequelize.define('Loan', {
@@ -13,45 +13,52 @@ const Loan = sequelize.define('Loan', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,  // Asocia con el modelo User
-      key: 'user_id'
+      model: User,
+      key: 'user_id',
     },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   },
   book_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Book,  // Asocia con el modelo Book
-      key: 'book_id'
+      model: Book,
+      key: 'book_id',
     },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   },
   loan_date: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.DATE,
     allowNull: false,
   },
   due_date: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.DATE,
     allowNull: false,
   },
   return_date: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.DATE,
     allowNull: true,
   },
   is_late: {
     type: DataTypes.BOOLEAN,
+    allowNull: false,
     defaultValue: false,
   },
 }, {
+  timestamps: false,
   tableName: 'Loans',
-  timestamps: false, // Si no necesitas createdAt/updatedAt
 });
 
-// Definir relaciones con Book y User
-Loan.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-Loan.belongsTo(Book, { foreignKey: 'book_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+// Relación con User
+Loan.belongsTo(User, {
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+// Relación con Book
+Loan.belongsTo(Book, {
+  foreignKey: 'book_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
 
 module.exports = Loan;

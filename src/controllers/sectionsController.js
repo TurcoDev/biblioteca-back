@@ -1,83 +1,63 @@
 const Section = require('../models/sectionsModel.js');
 
-// Obtener todas las secciones
 exports.getAllSections = async (req, res) => {
   try {
-    const sections = await Section.findAll(); 
-    res.json(sections);
+    const sections = await Section.findAll();
+    res.status(200).json(sections);
   } catch (err) {
-    res.status(500).json({ error: 'Error al obtener secciones' });
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Obtener una sección por ID
 exports.getSectionById = async (req, res) => {
-  const id = req.params.id;
   try {
-    const section = await Section.findByPk(id); 
-    if (!section) {
-      return res.status(404).json({ error: 'Sección no encontrada' });
+    const section = await Section.findByPk(req.params.id);
+    if (section) {
+      res.status(200).json(section);
+    } else {
+      res.status(404).json({ error: "Section not found" });
     }
-    res.json(section);
   } catch (err) {
-    res.status(500).json({ error: 'Error al obtener sección' });
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Crear una nueva sección
 exports.createSection = async (req, res) => {
-  const { year, shift, name, teacher_id, classroom_library_id } = req.body;
-
   try {
-    const newSection = await Section.create({
-      year,
-      shift,
-      name,
-      teacher_id,
-      classroom_library_id,
-    });
+    const newSection = await Section.create(req.body);
     res.status(201).json(newSection);
   } catch (err) {
-    res.status(500).json({ error: 'Error al crear sección' });
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Actualizar una sección existente
 exports.updateSection = async (req, res) => {
-  const id = req.params.id;
-  const { year, shift, name, teacher_id, classroom_library_id } = req.body;
-
   try {
-    const section = await Section.findByPk(id);
-    if (!section) {
-      return res.status(404).json({ error: 'Sección no encontrada' });
+    const [updated] = await Section.update(req.body, {
+      where: { section_id: req.params.id },
+    });
+    if (updated) {
+      const updatedSection = await Section.findByPk(req.params.id);
+      res.status(200).json(updatedSection);
+    } else {
+      res.status(404).json({ error: "Section not found" });
     }
-
-    section.year = year;
-    section.shift = shift;
-    section.name = name;
-    section.teacher_id = teacher_id;
-    section.classroom_library_id = classroom_library_id;
-
-    await section.save(); 
-    res.status(200).json({ message: 'Sección actualizada correctamente' });
   } catch (err) {
-    res.status(500).json({ error: 'Error al actualizar sección' });
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Eliminar una sección
 exports.deleteSection = async (req, res) => {
-  const id = req.params.id;
   try {
-    const affectedRows = await Section.destroy({ where: { section_id: id } });
-
-    if (affectedRows === 0) {
-      return res.status(404).json({ error: 'Sección no encontrada' });
+    const deleted = await Section.destroy({
+      where: { section_id: req.params.id },
+    });
+    if (deleted) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: "Section not found" });
     }
-
-    res.status(200).json({ message: 'Sección eliminada correctamente' });
   } catch (err) {
-    res.status(500).json({ error: 'Error al eliminar sección' });
+    res.status(500).json({ error: err.message });
   }
 };

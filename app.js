@@ -11,32 +11,41 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Importar rutas
-const usuariosRouter = require('./src/routes/usuarioRoutes.js');
-const booksRouter = require('./src/routes/bookRoutes.js');
-const aulasRouter = require('./src/routes/aulasRoutes.js');
-const authorsRouter = require('./src/routes/authorsRoutes.js');
-const authRouter = require('./src/routes/authRoutes.js');
-const sectionsRouter = require('./src/routes/sectionsRoutes.js');
-const roleRouter = require('./src/routes/roleRoutes.js');
-const bookAuthorRouter = require('./src/routes/bookAuthorRoutes.js')
-const loansRouter = require('./src/routes/loansRoutes.js')
+const authRoutes = require('./src/routes/authRoutes.js');
+const authorRoutes = require('./src/routes/authorRoutes.js');
+const bookRoutes = require('./src/routes/bookRoutes.js');
+const booksAuthorsRoutes = require('./src/routes/booksAuthorsRoutes.js');
+const loanRoutes = require('./src/routes/loansRoutes.js');
+const roleRoutes = require('./src/routes/roleRoutes.js');
+const userRoutes = require('./src/routes/userRoutes.js');
+const classroomLibraryRoutes = require('./src/routes/classroomLibraryRoutes.js');
+const sectionRoutes = require('./src/routes/sectionsRoutes.js');
+const studentRoutes = require('./src/routes/studentsRoutes.js');
 
 // Rutas para usuarios
-app.use('/',authRouter);
-app.use('/usuarios', usuariosRouter);
-app.use('/books', booksRouter);
-app.use('/aulas', aulasRouter);
-app.use('/authors', authorsRouter);
-app.use('/sections', sectionsRouter);
-app.use('/roles', roleRouter);
-app.use('/bookAuthors',bookAuthorRouter);
-app.use('/loans', loansRouter);
+app.use('/', authRoutes);
+app.use('/autores', authorRoutes);
+app.use('/libros', bookRoutes);
+app.use('/libros-autor', booksAuthorsRoutes);
+app.use('/prestamos', loanRoutes);
+app.use('/roles', roleRoutes);
+app.use('/usuarios', userRoutes);
+app.use('/biblioteca', classroomLibraryRoutes);
+app.use('/secciones', sectionRoutes);
+app.use('/estudiantes', studentRoutes);
 
- // Puerto de escucha
+conexion.authenticate()
+    .then(() => {
+        console.log('Conexión a la base de datos establecida con éxito.');
+    })
+    .catch(err => {
+        console.error('No se pudo conectar a la base de datos:', err);
+    });
+
+// Puerto de escucha
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, ()=>{
-    console.log("corriendo en el puerto",PORT);
+app.listen(PORT, () => {
+    console.log("corriendo en el puerto", PORT);
 
 })
-            
