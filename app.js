@@ -15,16 +15,24 @@ const usuariosRouter = require('./src/routes/usuarioRoutes.js');
 const booksRouter = require('./src/routes/bookRoutes.js');
 const aulasRouter = require('./src/routes/Classroom.Routes.js');
 const authorsRouter = require('./src/routes/authorsRoutes.js');
-
+const authRouter = require('./src/routes/authRoutes.js');
+const sectionsRouter = require('./src/routes/sectionsRoutes.js');
+const roleRouter = require('./src/routes/roleRoutes.js');
+const bookAuthorRouter = require('./src/routes/bookAuthorRoutes.js')
+const loansRouter = require('./src/routes/loansRoutes.js')
 
 // Rutas para usuarios
+app.use('/',authRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/books', booksRouter);
 app.use('/aulas', aulasRouter);
 app.use('/authors', authorsRouter);
+app.use('/sections', sectionsRouter);
+app.use('/roles', roleRouter);
+app.use('/bookAuthors',bookAuthorRouter);
+app.use('/loans', loansRouter);
 
-
-// Puerto de escucha
+ // Puerto de escucha
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, ()=>{

@@ -81,3 +81,22 @@ exports.deleteUsuario = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar usuario' });
   }
 };
+
+
+// TODO cambiarlo por email en caso de que el usuario se loguee con el email
+// Verifica si un username existe o no en la db
+const usernameExists = async(username) => {
+  const user = await User.findOne({ where: { username: username } });
+  return user; // si no existe, retorna null, si existe retorna el user con ese username
+}
+
+
+// Obtiene un usuario por username
+exports.getUserByUsername = async(username) => {
+  const user = await usernameExists(username);
+  //console.log('user', user);
+  return user ? user : null;
+}
+
+
+

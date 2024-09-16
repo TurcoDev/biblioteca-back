@@ -24,13 +24,18 @@ const getAulas = async (req, res) => {
   };
 
   const AddAula = async (req, res)=>{
-    const Data = req.body
+    const {name} = req.body
     try {
-      const NewAula = Classroom.create(Data)
+      if(!name) {
+        return res.status(400).send("El nombre del aula es requerido");
+      }
+      const NewAula = await Classroom.create({
+        name
+      })
       res.status(201).send("Aula Creada")
       console.log(NewAula);
     } catch (error) {
-      res.status(500).send(error)
+      res.status(500).send(error.message)
     }
   }
 
@@ -46,7 +51,7 @@ const getAulas = async (req, res) => {
         await Classroom.save()
       }
     } catch (error) {
-      res.status(500).send(error)
+      res.status(500).send(error.message)
     }
   }
 
@@ -59,7 +64,7 @@ const getAulas = async (req, res) => {
       }
       res.status(200).send("Aula eliminada correctamente");
     } catch (error) {
-      res.status(500).send(error)
+      res.status(500).send(error.message)
     }
   }
 
