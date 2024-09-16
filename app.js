@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Importar rutas
-const usuariosRouter = require('./src/routes/usuarioRoutes.js');
+const userRouter = require('./src/routes/userRoutes.js');
 const booksRouter = require('./src/routes/bookRoutes.js');
 const aulasRouter = require('./src/routes/aulasRoutes.js');
 const authorsRouter = require('./src/routes/authorsRoutes.js');
@@ -23,7 +23,7 @@ const loansRouter = require('./src/routes/loansRoutes.js')
 
 // Rutas para usuarios
 app.use('/',authRouter);
-app.use('/usuarios', usuariosRouter);
+app.use('/users', userRouter);
 app.use('/books', booksRouter);
 app.use('/aulas', aulasRouter);
 app.use('/authors', authorsRouter);
