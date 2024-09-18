@@ -1,4 +1,4 @@
-const userController = require('./usuarioController.js');
+const userController = require('./userController.js');
 const userService = require('../services/userServices.js');
 const User = require('../models/userModel.js');
 
