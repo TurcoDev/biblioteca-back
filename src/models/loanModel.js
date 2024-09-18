@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize-cockroachdb');
 const sequelize = require('../config/db.js');
-const Book = require('../models/bookModel.js'); // Asume que tienes un modelo de Book
-const User = require('../models/userModel.js'); // Asume que tienes un modelo de User
+const Book = require('./bookModel.js'); // Asume que tienes un modelo de Book
+const User = require('./userModel.js'); // Asume que tienes un modelo de User
 
 const Loan = sequelize.define('Loan', {
   loan_id: {

@@ -11,10 +11,18 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Importar rutas
-const usuariosRouter = require('./src/routes/usuarioRoutes.js');
-const booksRouter = require('./src/routes/bookRoutes.js');
-const aulasRouter = require('./src/routes/Classroom.Routes.js');
-const authorsRouter = require('./src/routes/authorsRoutes.js');
+const authRoutes = require('./src/routes/authRoutes.js');
+const authorRoutes = require('./src/routes/authorRoutes.js');
+const userRoutes = require('./src/routes/userRoutes.js');
+const roleRoutes = require('./src/routes/roleRoutes.js');
+const bookRoutes = require('./src/routes/bookRoutes.js');
+const classroomLibraryRoutes = require('./src/routes/classroomLibraryRoutes.js');
+const booksAuthorsRoutes = require('./src/routes/booksAuthorsRoutes.js');
+const loanRoutes = require('./src/routes/loanRoutes.js');
+const sectionRoutes = require('./src/routes/sectionsRoutes.js');
+const studentRoutes = require('./src/routes/studentsRoutes.js');
+
+
 
 // Rutas para usuarios
 app.use('/', authRoutes);
@@ -41,5 +49,4 @@ const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
     console.log("corriendo en el puerto", PORT);
-
 })
