@@ -13,26 +13,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Importar rutas
 const authRoutes = require('./src/routes/authRoutes.js');
 const authorRoutes = require('./src/routes/authorRoutes.js');
-const userRoutes = require('./src/routes/userRoutes.js');
-const roleRoutes = require('./src/routes/roleRoutes.js');
 const bookRoutes = require('./src/routes/bookRoutes.js');
-const classroomLibraryRoutes = require('./src/routes/classroomLibraryRoutes.js');
 const booksAuthorsRoutes = require('./src/routes/booksAuthorsRoutes.js');
+const classroomRoutes = require('./src/routes/classroomRoutes.js');
+const classroomLibraryRoutes = require('./src/routes/classroomLibraryRoutes.js');
 const loanRoutes = require('./src/routes/loanRoutes.js');
+const roleRoutes = require('./src/routes/roleRoutes.js');
 const sectionRoutes = require('./src/routes/sectionsRoutes.js');
 const studentRoutes = require('./src/routes/studentsRoutes.js');
+const userRoutes = require('./src/routes/userRoutes.js');
+
 
 // Rutas para usuarios
 app.use('/', authRoutes);
 app.use('/autores', authorRoutes);
+app.use('/aulas', classroomRoutes)
+app.use('/biblioteca', classroomLibraryRoutes);
+app.use('/estudiantes', studentRoutes);
 app.use('/libros', bookRoutes);
 app.use('/libros-autor', booksAuthorsRoutes);
 app.use('/prestamos', loanRoutes);
 app.use('/roles', roleRoutes);
-app.use('/usuarios', userRoutes);
-app.use('/biblioteca', classroomLibraryRoutes);
 app.use('/secciones', sectionRoutes);
-app.use('/estudiantes', studentRoutes);
+app.use('/usuarios', userRoutes);
 
 conexion.authenticate()
     .then(() => {
