@@ -22,8 +22,6 @@ const loanRoutes = require('./src/routes/loanRoutes.js');
 const sectionRoutes = require('./src/routes/sectionsRoutes.js');
 const studentRoutes = require('./src/routes/studentsRoutes.js');
 
-
-
 // Rutas para usuarios
 app.use('/', authRoutes);
 app.use('/autores', authorRoutes);
