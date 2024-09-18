@@ -1,3 +1,4 @@
+const { where } = require('sequelize-cockroachdb');
 const Classroom = require('../models/classroomModel.js')
 
 const getAulas = async (req, res) => {
@@ -24,12 +25,13 @@ const getAulas = async (req, res) => {
   };
 
   const AddAula = async (req, res)=>{
-    const {name} = req.body
+    const {classroom_library_id,name} = req.body
     try {
       if(!name) {
         return res.status(400).send("El nombre del aula es requerido");
       }
       const NewAula = await Classroom.create({
+        classroom_library_id,
         name
       })
       res.status(201).send("Aula Creada")
@@ -47,8 +49,8 @@ const getAulas = async (req, res) => {
       if(!aula){
         res.status(404).send("Aula no encontrada")
       }else{
-        Classroom.name = name
-        await Classroom.save()
+        await Classroom.update(name, {where: {classroom_library_id: id}})
+        res.status(200).send("Aula actualizada")
       }
     } catch (error) {
       res.status(500).send(error.message)

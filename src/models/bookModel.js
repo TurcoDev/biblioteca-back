@@ -1,4 +1,5 @@
 // Iniciamos una instancia de Sequelize y la conexión a la base de datos
+const Classroom = require('./classroomModel.js')
 const Sequelize = require('sequelize-cockroachdb')
 const sequelize = require('../config/db.js');
 
@@ -49,6 +50,6 @@ const Book = sequelize.define('Book', {
   tableName: 'Books'
 });
 
-//Book.belongsTo(Classroom, { foreignKey: 'classroom_library_id' });
+Book.belongsTo(Classroom, { foreignKey: 'classroom_library_id' });
 
 module.exports = Book;

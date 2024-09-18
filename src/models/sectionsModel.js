@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.js'); 
+const Classroom = require('./classroomModel.js')
 // Si tienes modelos para Teacher o ClassroomLibrary, deberías importarlos aquí
 // const Teacher = require('../models/teacherModel.js');
 // const ClassroomLibrary = require('../models/classroomLibraryModel.js');
@@ -45,6 +46,6 @@ const Section = sequelize.define('Section', {
 
 // Si tienes relaciones, puedes definirlas aquí, por ejemplo:
 // Section.belongsTo(Teacher, { foreignKey: 'teacher_id' });
-// Section.belongsTo(ClassroomLibrary, { foreignKey: 'classroom_library_id' });
+ Section.belongsTo(Classroom, { foreignKey: 'classroom_library_id' });
 
 module.exports = Section;
