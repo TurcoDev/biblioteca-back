@@ -3,7 +3,7 @@ const sequelize = require('../config/db.js');
 const Section = require('../models/sectionsModel.js'); // Importa el modelo Section
 const User = require('../models/userModel.js'); // Importa el modelo User
 
-const Student = sequelize.define('Student', {
+const Student = sequelize.define('Students', {
   user_id: {
     type: DataTypes.INTEGER,
     unique: true,
@@ -37,7 +37,7 @@ const Student = sequelize.define('Student', {
 });
 
 // Definir las relaciones
-Student.belongsTo(Section, { foreignKey: 'section_id' });
-Student.belongsTo(User, { foreignKey: 'user_id' });
+// Student.belongsTo(Section, { foreignKey: 'section_id' });
+// Student.belongsTo(User, { foreignKey: 'user_id' });
 
 module.exports = Student;
