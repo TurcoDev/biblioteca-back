@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize-cockroachdb');
 const sequelize = require('../config/db.js'); 
-const User = require('./userModel');
-const ClassroomLibrary = require('./classroomLibraryModel');
+const User = require('./userModel.js');
+const ClassroomLibrary = require('./classroomLibraryModel.js');
 
 const Section = sequelize.define('Section', {
   section_id: {

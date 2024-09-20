@@ -1,7 +1,5 @@
-// Iniciamos una instancia de Sequelize y la conexión a la base de datos
-const { DataTypes } = require('sequelize-cockroachdb');
 const sequelize = require('../config/db.js');
-const Author = require('./authorsModel.js');
+const { DataTypes } = require('sequelize-cockroachdb');
 const ClassroomLibrary = require('./classroomLibraryModel.js');
 
 const Book = sequelize.define('Book', {
@@ -41,6 +39,9 @@ const Book = sequelize.define('Book', {
   origin: {
     type: DataTypes.STRING(255),
     allowNull: true,
+    validate: {
+      isIn: [['compra', 'donación']],
+    },
   },
 }, {
   timestamps: false,

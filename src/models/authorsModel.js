@@ -1,7 +1,5 @@
-// src/models/Author.js
 const sequelize = require('../config/db.js');
 const { DataTypes } = require('sequelize-cockroachdb');
-const Book = require('./bookModel.js');
 
 const Author = sequelize.define('Author', {
   author_id: {

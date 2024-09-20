@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize-cockroachdb');
 const sequelize = require('../config/db.js');
+const { DataTypes } = require('sequelize-cockroachdb');
 const Book = require('./bookModel.js');
 const Author = require('./authorsModel.js');
 
@@ -29,6 +29,7 @@ const BookAuthor = sequelize.define('BookAuthor', {
   tableName: 'Books_Authors',
 });
 
+// Definición de la relación muchos a muchos
 Book.belongsToMany(Author, { through: BookAuthor, foreignKey: 'book_id' });
 Author.belongsToMany(Book, { through: BookAuthor, foreignKey: 'author_id' });
 
