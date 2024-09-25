@@ -25,7 +25,7 @@ const userRoutes = require('./src/routes/userRoutes.js');
 
 // Rutas para usuarios
 app.use('/', authRoutes);
-app.use('/autore', authorRoutes);
+app.use('/autor', authorRoutes);
 app.use('/biblioteca', classroomLibraryRoutes);
 app.use('/estudiante', studentRoutes);
 app.use('/libro', bookRoutes);
