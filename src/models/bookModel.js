@@ -1,55 +1,57 @@
-// Iniciamos una instancia de Sequelize y la conexión a la base de datos
-const Classroom = require('./classroomModel.js')
-const Sequelize = require('sequelize-cockroachdb')
 const sequelize = require('../config/db.js');
+const { DataTypes } = require('sequelize-cockroachdb');
+const ClassroomLibrary = require('./classroomLibraryModel.js');
 
-
-// Esquema de la tabla libros de la base de datos
-// TODO falta definir bien cada campo y validaciones
 const Book = sequelize.define('Book', {
-    book_id:{
-        type:Sequelize.DataTypes.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
+  book_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  classroom_library_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: ClassroomLibrary,
+      key: 'classroom_library_id',
     },
-    /* classroom_library_id: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: Classroom,
-          key: 'classroom_library_id'
-        }
-    }, */
-    classroom_library_id:{
-        type:Sequelize.DataTypes.INTEGER,
+  },
+  book_number: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  title: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  isbn: {
+    type: DataTypes.STRING(17),
+    allowNull: true,
+  },
+  publication_year: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  copy_number: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  origin: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+    validate: {
+      isIn: [['compra', 'donación']],
     },
-    book_number:{
-        type:Sequelize.DataTypes.INTEGER,
-    },
-    title:{
-        type:Sequelize.DataTypes.STRING,
-        //allowNull: false,
-    },
-    isbn:{
-        type:Sequelize.DataTypes.STRING(17),
-        allowNull: false,
-        unique: true
-    },
-    publication_year:{
-        type:Sequelize.DataTypes.INTEGER,
-        //allowNull:false
-    },
-    copy_number:{
-        type:Sequelize.DataTypes.INTEGER,
-        //allowNull:false
-    },
-    origin:{
-        type:Sequelize.DataTypes.STRING,
-        //allowNull:false
-    },
+  },
 }, {
-  tableName: 'Books'
+  timestamps: false,
+  tableName: 'Books',
 });
 
-Book.belongsTo(Classroom, { foreignKey: 'classroom_library_id' });
+Book.belongsTo(ClassroomLibrary, {
+  foreignKey: 'classroom_library_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 
 module.exports = Book;
