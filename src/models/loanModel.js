@@ -44,7 +44,7 @@ const Loan = sequelize.define('Loan', {
   },
 }, {
   timestamps: false,
-  tableName: 'Loans',
+  tableName: 'loans',
 });
 
 // Relación con User

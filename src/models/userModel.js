@@ -46,7 +46,7 @@ const User = sequelize.define('User', {
   },
 }, {
   timestamps: false,
-  tableName: 'Users',
+  tableName: 'users',
 });
 
 // Relación con Role

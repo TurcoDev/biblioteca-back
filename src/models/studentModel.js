@@ -4,6 +4,11 @@ const Section = require('../models/sectionModel.js');
 const User = require('./userModel.js');
 
 const Student = sequelize.define('Student', {
+  student_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   user_id: {
     type: DataTypes.INTEGER,
     unique: true,
@@ -27,8 +32,8 @@ const Student = sequelize.define('Student', {
   },
 }, {
   timestamps: false,
-  tableName: 'Students',
-  primaryKey: ['section_id', 'member_number'],
+  tableName: 'students',
+  // primaryKey: ['section_id', 'member_number'],
 });
 
 // Relación con User

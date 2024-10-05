@@ -26,7 +26,7 @@ const BookAuthor = sequelize.define('BookAuthor', {
   },
 }, {
   timestamps: false,
-  tableName: 'Books_Authors',
+  tableName: 'books_authors',
 });
 
 // Definición de la relación muchos a muchos

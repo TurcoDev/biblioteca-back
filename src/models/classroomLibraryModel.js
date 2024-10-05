@@ -13,7 +13,7 @@ const ClassroomLibrary = sequelize.define('ClassroomLibrary', {
     },
   }, {
     timestamps: false,
-    tableName: 'Classroom_Libraries',
+    tableName: 'classroom_libraries',
   });
   
   module.exports = ClassroomLibrary;  

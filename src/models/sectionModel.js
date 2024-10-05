@@ -39,7 +39,7 @@ const Section = sequelize.define('Section', {
   },
 }, {
   timestamps: false,
-  tableName: 'Sections',
+  tableName: 'sections',
 });
 
 // Relación con Teacher (User)

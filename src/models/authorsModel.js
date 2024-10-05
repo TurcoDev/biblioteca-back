@@ -13,7 +13,7 @@ const Author = sequelize.define('Author', {
   },
 }, {
   timestamps: false,
-  tableName: 'Authors',
+  tableName: 'authors',
 });
 
 module.exports = Author;

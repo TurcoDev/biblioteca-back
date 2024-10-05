@@ -45,7 +45,7 @@ const Book = sequelize.define('Book', {
   },
 }, {
   timestamps: false,
-  tableName: 'Books',
+  tableName: 'books',
 });
 
 Book.belongsTo(ClassroomLibrary, {
