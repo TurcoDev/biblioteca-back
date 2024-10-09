@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Importar rutas
 const usuariosRouter = require('./src/routes/usuarioRoutes.js');
 const booksRouter = require('./src/routes/bookRoutes.js');
-const aulasRouter = require('./src/routes/Classroom.Routes.js');
+const aulasRouter = require('./src/routes/aulasRoutes.js');
 const authorsRouter = require('./src/routes/authorsRoutes.js');
 const authRouter = require('./src/routes/authRoutes.js');
 const sectionsRouter = require('./src/routes/sectionsRoutes.js');
