@@ -1,10 +1,15 @@
 // Importar módulos necesarios
 require('dotenv').config(); // Para usar variables de entorno
 const express = require('express');
-const app = express();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const conexion = require('./src/config/db.js')
+const app = express();
 
+// Configurar CORS
+app.use(cors({
+    origin: 'http://127.0.0.1:5173' // URL donde corre Vite React
+}));
 
 // Middleware para parsear JSON en las solicitudes
 app.use(express.json());
