@@ -7,16 +7,11 @@ const User = require('../models/userModel.js');
 const login = async (req, res) => {
   const username =req.body.username;
   const password = req.body.password_hash;
-  console.log('username', username, 'password', password);
 
   try {
 
     const user = await userService.getUserByUsername(username);
-    console.log('user', user? user.dataValues : user);
     if(!user) throw new Error('Not found');
-
-    // TODO BORRAR ESTA LINEA SE USA SOLO PARA TEST
-    //const validatePassword = user.password_hash === password;
 
     // Verificacion de contrasena
     const storedPassword = user.password_hash;
@@ -30,13 +25,13 @@ const login = async (req, res) => {
     console.log('error', error);
     switch (error.message) {
       case 'Not found':
-        res.status(404).send({message: 'Usuario no encontrado', data: []});
+        res.status(404).send({error: 'Usuario no encontrado', data: []});
         break;
       case 'Invalid password':
-        res.status(401).send({message: 'Contraseña incorrecta', data: []});
+        res.status(401).send({error: 'Validacion incorrecta', data: []});
         break;
       default:
-        res.status(500).send({message: 'Ocurrió un error al intentar iniciar sesión', data: []});
+        res.status(500).send({error: 'Ocurrió un error al intentar iniciar sesión', data: []});
         break;
     }
 
@@ -47,33 +42,31 @@ const register = async (req, res) => {
   console.log('register');
 
   // TODO ver como se envia desde el front
+  //actualmente el body esperado es asi:
+  /* {
+    "username": "uhdsuhdu",
+    "password_hash": "sdsdasd",
+    "email": "dsadas@ussdsdde.com",
+    "role_id":"1012621963959762945",
+    "is_moroso":false
+  } */
   const userData = req.body;
   const password = req.body.password_hash;
-  userData.password_hash = await userService.encryptPassword(password);
-  console.log('userData', userData);
 
-  // modifico el req.body.user
-  //req.body.password_hash = userData.password_hash;
-
+  // Encripto la contraseña
   try {
-    //const user = await userController.createUsuario(req, res); // no se como enganchar el createUsuario
-    
-    // TODO ESTO ES PARA TEST
-    const user = await User.create({
-      user_id: userData.user_id, // esto sacarlo es por el error que me tira de not null constraint
-      username: userData.username,
-      password_hash: userData.password_hash,
-      email: userData.email,
-      role_id: userData.role_id,
-      is_moroso: userData.is_moroso || false,
-    });
+    userData.password_hash = await userService.encryptPassword(password);
 
-    console.log('user', user);
-    res.status(200).send({message: 'Register OK', data: user});
+    // Modifico el body para que envie el password encriptado
+    req.body.password_hash = userData.password_hash;
+
+    await userController.createUser(req, res);
+
   } catch (error) {
     console.log('error', error);
-    res.status(500).send({message: 'Ocurrio un error al intentar registrar', data: []});
+    res.status(500).send({error: 'Ocurrio un error al encriptar la contraseña', data: []});
   }
+
 };
 
 module.exports = {
