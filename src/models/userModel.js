@@ -52,7 +52,6 @@ const User = sequelize.define('User', {
 // Relación con Role
 User.belongsTo(Role, {
   foreignKey: 'role_id',
-  onDelete: 'CASCADE',
   onUpdate: 'CASCADE'
 });
 
