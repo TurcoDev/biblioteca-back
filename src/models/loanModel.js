@@ -50,15 +50,11 @@ const Loan = sequelize.define('Loan', {
 // Relación con User
 Loan.belongsTo(User, {
   foreignKey: 'user_id',
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE'
 });
 
 // Relación con Book
 Loan.belongsTo(Book, {
-  foreignKey: 'book_id',
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE'
+  foreignKey: 'book_id'
 });
 
 module.exports = Loan;

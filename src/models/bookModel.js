@@ -49,9 +49,7 @@ const Book = sequelize.define('Book', {
 });
 
 Book.belongsTo(ClassroomLibrary, {
-  foreignKey: 'classroom_library_id',
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
+  foreignKey: 'classroom_library_id'
 });
 
 module.exports = Book;
