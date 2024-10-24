@@ -16,7 +16,8 @@ Este proyecto incluye dependencias como:**TODO: ir agregando a medida que las in
 - ORM: Sequelize
 - DB cluster: CrockroachDB
 - Autentificación (token):
-- Encriptación:
+- Encriptación: bcrypt
+- CORS: cors
 - Documentación:
 
 ## Ejecución
