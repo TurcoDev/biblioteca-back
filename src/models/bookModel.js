@@ -22,7 +22,7 @@ const Book = sequelize.define('Book', {
   },
   portada: {
     type: DataTypes.STRING,
-    allowNull: false,
+    //allowNull: false,
     validate: {
       isUrl: true, // Validar que sea una URL
     },
