@@ -20,6 +20,13 @@ const Book = sequelize.define('Book', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  portada: {
+    type: DataTypes.STRING,
+    //allowNull: false,
+    validate: {
+      isUrl: true, // Validar que sea una URL
+    },
+  },
   title: {
     type: DataTypes.STRING(255),
     allowNull: false,
