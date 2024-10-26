@@ -19,7 +19,7 @@ const Loan = require('./src/models/loanModel.js');
     console.log('Conexión establecida correctamente.');
 
     // Sincronizar los modelos con la base de datos respetando la estructura SQL proporcionada
-    await sequelize.sync({ force: true });  // Elimina y recrea las tablas (solo para desarrollo)
+    await sequelize.sync({ force: false });  // Elimina y recrea las tablas (solo para desarrollo)
     
     console.log('Todos los modelos se han sincronizado con la base de datos.');
 

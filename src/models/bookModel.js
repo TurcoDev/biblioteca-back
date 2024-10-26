@@ -20,6 +20,13 @@ const Book = sequelize.define('Book', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  portada: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      isUrl: true, // Validar que sea una URL
+    },
+  },
   title: {
     type: DataTypes.STRING(255),
     allowNull: false,
@@ -49,9 +56,7 @@ const Book = sequelize.define('Book', {
 });
 
 Book.belongsTo(ClassroomLibrary, {
-  foreignKey: 'classroom_library_id',
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
+  foreignKey: 'classroom_library_id'
 });
 
 module.exports = Book;

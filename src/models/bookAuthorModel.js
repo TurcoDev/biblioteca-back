@@ -11,8 +11,6 @@ const BookAuthor = sequelize.define('BookAuthor', {
       model: Book,
       key: 'book_id',
     },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   },
   author_id: {
     type: DataTypes.INTEGER,
@@ -21,8 +19,6 @@ const BookAuthor = sequelize.define('BookAuthor', {
       model: Author,
       key: 'author_id',
     },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   },
 }, {
   timestamps: false,

@@ -38,16 +38,12 @@ const Student = sequelize.define('Student', {
 
 // Relación con User
 Student.belongsTo(User, {
-  foreignKey: 'user_id',
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE'
+  foreignKey: 'user_id'
 });
 
 // Relación con Section
 Student.belongsTo(Section, {
-  foreignKey: 'section_id',
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE'
+  foreignKey: 'section_id'
 });
 
 module.exports = Student;
