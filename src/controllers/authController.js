@@ -39,32 +39,39 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  console.log('register');
-
-  // TODO ver como se envia desde el front
-  //actualmente el body esperado es asi:
-  /* {
-    "username": "uhdsuhdu",
-    "password_hash": "sdsdasd",
-    "email": "dsadas@ussdsdde.com",
-    "role_id":"1012621963959762945",
-    "is_moroso":false
-  } */
   const userData = req.body;
   const password = req.body.password_hash;
 
-  // Encripto la contraseña
   try {
+    // Encripto la contraseña
     userData.password_hash = await userService.encryptPassword(password);
 
     // Modifico el body para que envie el password encriptado
     req.body.password_hash = userData.password_hash;
 
+    // verifico si el username y el email no existen
+    const usernameExists = await userService.getUserByUsername(userData.username);
+    if(usernameExists) throw new Error('Username already exists');
+    const emailExists = await userService.getUserByEmail(userData.email);
+    if(emailExists) throw new Error('Email already exists');
+
+    // Si no existen, se crea el usuario
     await userController.createUser(req, res);
 
   } catch (error) {
     console.log('error', error);
-    res.status(500).send({error: 'Ocurrio un error al encriptar la contraseña', data: []});
+    switch (error.message) {
+      case 'Username already exists':
+        res.status(500).send({error: 'Ya existe un usuario con ese username', data: []});
+        break;
+      case 'Email already exists':
+        res.status(500).send({error: 'Ya existe un usuario con ese email', data: []});
+        break;
+      default:
+        res.status(500).send({error: 'Ocurrió un error al intentar registar usuario', data: []});
+        break;
+    }
+
   }
 
 };
