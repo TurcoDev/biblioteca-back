@@ -1,4 +1,5 @@
 const User = require('../models/userModel.js');
+const Role = require('../models/roleModel.js');
 const bcrypt = require('bcrypt');
 
 const SALT = 10;
@@ -41,4 +42,11 @@ exports.encryptPassword = async(password) => {
 // Verifica si la contraseña es correcta
 exports.validatePassword = async(userPassword, storedPassword) => {
   return await bcrypt.compare(userPassword, storedPassword);
+}
+
+
+// Obtengo un rol por nombre
+exports.getRoleByName = async(name) => {
+  const role = await Role.findOne({ where: { role_name: name } });
+  return role ? role.role_id : null;
 }

@@ -48,18 +48,43 @@ const register = async (req, res) => {
 
     // Modifico el body para que envie el password encriptado
     req.body.password_hash = userData.password_hash;
+    
+    // si vienen user y email vacios, lanzo error pues uno de los dos debe venir con datos
+    if(!userData.user && !userData.email) throw new Error('User and email cannot be empty');
 
-    // verifico si el username y el email no existen
-    const usernameExists = await userService.getUserByUsername(userData.username);
-    if(usernameExists) throw new Error('Username already exists');
-    const emailExists = await userService.getUserByEmail(userData.email);
-    if(emailExists) throw new Error('Email already exists');
+    // si el email viene como string vacio, elimino la propiedad, asi se inserta como null
+    if(!userData.email) {
+      delete userData.email;
+    } else {
+      // verifico si el el email no existe
+      const emailExists = await userService.getUserByEmail(userData.email);
+      if(emailExists) throw new Error('Email already exists');
+    }
+    // si el username viene como string vacio, elimino la propiedad, asi se inserta como null
+    if(!userData.username) {
+      delete userData.username;
+    } else {
+      // verifico si el username no existe
+      const usernameExists = await userService.getUserByUsername(userData.username);
+      if(usernameExists) throw new Error('Username already exists');
+    }
+
+    // recupero el id del rol para el usuario
+    const roleId = await userService.getRoleByName(userData.role_id);
+    if(roleId) {
+      userData.role_id = roleId;
+    } else {
+      throw new Error('Role not found');
+    };
+
+    // Modifico el req.body con los cambios realizados
+    req.body = userData;
 
     // Si no existen, se crea el usuario
     await userController.createUser(req, res);
 
   } catch (error) {
-    console.log('error', error);
+    console.log('error.message', error.message);
     switch (error.message) {
       case 'Username already exists':
         res.status(500).send({error: 'Ya existe un usuario con ese username', data: []});
