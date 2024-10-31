@@ -8,7 +8,7 @@ const app = express();
 
 // Configurar CORS
 app.use(cors({
-    origin: 'http://127.0.0.1:5173' // URL donde corre Vite React
+    origin: 'http://localhost:5173' // URL donde corre Vite React
 }));
 
 // Middleware para parsear JSON en las solicitudes
