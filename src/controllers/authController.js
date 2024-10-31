@@ -39,32 +39,64 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  console.log('register');
-
-  // TODO ver como se envia desde el front
-  //actualmente el body esperado es asi:
-  /* {
-    "username": "uhdsuhdu",
-    "password_hash": "sdsdasd",
-    "email": "dsadas@ussdsdde.com",
-    "role_id":"1012621963959762945",
-    "is_moroso":false
-  } */
   const userData = req.body;
   const password = req.body.password_hash;
 
-  // Encripto la contraseña
   try {
+    // Encripto la contraseña
     userData.password_hash = await userService.encryptPassword(password);
 
     // Modifico el body para que envie el password encriptado
     req.body.password_hash = userData.password_hash;
+    
+    // si vienen user y email vacios, lanzo error pues uno de los dos debe venir con datos
+    if(!userData.user && !userData.email) throw new Error('User and email cannot be empty');
 
+    // si el email viene como string vacio, elimino la propiedad, asi se inserta como null
+    if(!userData.email) {
+      delete userData.email;
+    } else {
+      // verifico si el el email no existe
+      const emailExists = await userService.getUserByEmail(userData.email);
+      if(emailExists) throw new Error('Email already exists');
+    }
+    // si el username viene como string vacio, elimino la propiedad, asi se inserta como null
+    if(!userData.username) {
+      delete userData.username;
+    } else {
+      // verifico si el username no existe
+      const usernameExists = await userService.getUserByUsername(userData.username);
+      if(usernameExists) throw new Error('Username already exists');
+    }
+
+    // recupero el id del rol para el usuario
+    const roleId = await userService.getRoleByName(userData.role_id);
+    if(roleId) {
+      userData.role_id = roleId;
+    } else {
+      throw new Error('Role not found');
+    };
+
+    // Modifico el req.body con los cambios realizados
+    req.body = userData;
+
+    // Si no existen, se crea el usuario
     await userController.createUser(req, res);
 
   } catch (error) {
-    console.log('error', error);
-    res.status(500).send({error: 'Ocurrio un error al encriptar la contraseña', data: []});
+    console.log('error.message', error.message);
+    switch (error.message) {
+      case 'Username already exists':
+        res.status(500).send({error: 'Ya existe un usuario con ese username', data: []});
+        break;
+      case 'Email already exists':
+        res.status(500).send({error: 'Ya existe un usuario con ese email', data: []});
+        break;
+      default:
+        res.status(500).send({error: 'Ocurrió un error al intentar registar usuario', data: []});
+        break;
+    }
+
   }
 
 };

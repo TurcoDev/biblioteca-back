@@ -28,18 +28,18 @@ exports.getBookById = async (req, res) => {
 exports.createBook = async (req, res) => {
   
   try {
-   // const result = await cloudinary.uploader.upload(req.file.path);
+    const result = await cloudinary.uploader.upload(req.file.path);
     const newBook = await Book.create({
       classroom_library_id: req.body.classroom_library_id,
       book_number: req.body.book_number,
       title: req.body.title,
-      //portada: result.secure_url,
+      portada: result.secure_url,
       isbn: req.body.isbn,
       publication_year: req.body.publication_year,
       copy_number: req.body.copy_number,
       origin: req.body.origins
     });
-    //fs.unlinkSync(req.file.path);
+    fs.unlinkSync(req.file.path);
     res.status(201).json(newBook);
   } catch (err) {
     res.status(500).json({ error: err.message });

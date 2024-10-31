@@ -1,13 +1,19 @@
 const User = require('../models/userModel.js');
+const Role = require('../models/roleModel.js');
 const bcrypt = require('bcrypt');
 
 const SALT = 10;
 
-// TODO cambiarlo por email en caso de que el usuario se loguee con el email
 // Verifica si un username existe o no en la db
 const usernameExists = async(username) => {
   const user = await User.findOne({ where: { username: username } });
   return user; // si no existe, retorna null, si existe retorna el user con ese username
+}
+
+// Verifica si un email existe o no en la db
+const emailExists = async(email) => {
+  const user = await User.findOne({ where: { email: email } });
+  return user; // si no existe, retorna null, si existe retorna el user con ese email
 }
 
 
@@ -18,9 +24,17 @@ exports.getUserByUsername = async(username) => {
   return user ? user : null;
 }
 
+// Obtiene un usuario por email
+exports.getUserByEmail = async(email) => {
+  const user = await emailExists(email);
+  return user ? user : null;
+}
+
 
 // Recibe una contraseña y la encripta
 exports.encryptPassword = async(password) => {
+  console.log('password', password);
+  console.log('SALT', SALT);
   return await bcrypt.hash(password, SALT);
 }
 
@@ -28,4 +42,11 @@ exports.encryptPassword = async(password) => {
 // Verifica si la contraseña es correcta
 exports.validatePassword = async(userPassword, storedPassword) => {
   return await bcrypt.compare(userPassword, storedPassword);
+}
+
+
+// Obtengo un rol por nombre
+exports.getRoleByName = async(name) => {
+  const role = await Role.findOne({ where: { role_name: name } });
+  return role ? role.role_id : null;
 }

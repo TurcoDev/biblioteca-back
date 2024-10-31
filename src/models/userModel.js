@@ -10,7 +10,8 @@ const User = sequelize.define('User', {
   },
   username: {
     type: DataTypes.STRING(50),
-    allowNull: false,
+    allowNull: true,
+    unique: true
   },
   password_hash: {
     type: DataTypes.STRING(255),
@@ -18,8 +19,16 @@ const User = sequelize.define('User', {
   },
   email: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
     unique: true,
+  },
+  name: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
+  last_name: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
   },
   created_at: {
     type: DataTypes.DATE,
