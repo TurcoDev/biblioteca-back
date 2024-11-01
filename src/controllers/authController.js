@@ -41,6 +41,7 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   const userData = req.body;
   const password = req.body.password_hash;
+  console.log("payload",req.body);
 
   try {
     // Encripto la contraseña
@@ -50,7 +51,7 @@ const register = async (req, res) => {
     req.body.password_hash = userData.password_hash;
     
     // si vienen user y email vacios, lanzo error pues uno de los dos debe venir con datos
-    if(!userData.user && !userData.email) throw new Error('User and email cannot be empty');
+    if(!userData.username && !userData.email) throw new Error('User and email cannot be empty');
 
     // si el email viene como string vacio, elimino la propiedad, asi se inserta como null
     if(!userData.email) {
