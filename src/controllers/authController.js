@@ -1,5 +1,12 @@
 const userController = require('./userController.js');
-const userService = require('../services/userServices.js');
+const { usernameExists,
+        emailExists,
+        getUserById,
+        getUserByUsername,
+        getUserByEmail,
+        encryptPassword,
+        validatePassword,
+        getRoleByName } = require('../services/userServices.js');
 const User = require('../models/userModel.js');
 
 // Ingresar al sistema con username y password
@@ -10,18 +17,17 @@ const login = async (req, res) => {
 
   try {
 
-    const user = await userService.getUserByUsername(username);
+    const user = await getUserByUsername(username);
     if(!user) throw new Error('Not found');
 
     // Verificacion de contrasena
     const storedPassword = user.password_hash;
-    const validatePassword = await userService.validatePassword(password, storedPassword);
-    if(!validatePassword) throw new Error('Invalid password');
+    const validPassword = await validatePassword(password, storedPassword);
+    if(!validPassword) throw new Error('Invalid password');
 
     res.status(200).send({message: 'Login OK', data: user.dataValues})
 
   } catch (error) {
-
     console.log('error', error);
     switch (error.message) {
       case 'Not found':
@@ -45,7 +51,7 @@ const register = async (req, res) => {
 
   try {
     // Encripto la contraseña
-    userData.password_hash = await userService.encryptPassword(password);
+    userData.password_hash = await encryptPassword(password);
 
     // Modifico el body para que envie el password encriptado
     req.body.password_hash = userData.password_hash;
@@ -58,7 +64,7 @@ const register = async (req, res) => {
       delete userData.email;
     } else {
       // verifico si el el email no existe
-      const emailExists = await userService.getUserByEmail(userData.email);
+      const emailExists = await getUserByEmail(userData.email);
       if(emailExists) throw new Error('Email already exists');
     }
     // si el username viene como string vacio, elimino la propiedad, asi se inserta como null
@@ -66,12 +72,12 @@ const register = async (req, res) => {
       delete userData.username;
     } else {
       // verifico si el username no existe
-      const usernameExists = await userService.getUserByUsername(userData.username);
+      const usernameExists = await getUserByUsername(userData.username);
       if(usernameExists) throw new Error('Username already exists');
     }
 
     // recupero el id del rol para el usuario
-    const roleId = await userService.getRoleByName(userData.role_id);
+    const roleId = await getRoleByName(userData.role_id);
     if(roleId) {
       userData.role_id = roleId;
     } else {
