@@ -48,9 +48,29 @@ exports.createBook = async (req, res) => {
 
 exports.updateBook = async (req, res) => {
   try {
+    const book = await Book.findByPk(req.params.id);
+    if (!book) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
+    if (req.file) {
+      if (book.public_id) {
+        await cloudinary.uploader.destroy(book.public_id);
+      }
+
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+
+      req.body.portada = result.secure_url;
+      req.body.public_id = result.public_id;
+
+      fs.unlinkSync(req.file.path);
+    }
+
     const [updated] = await Book.update(req.body, {
       where: { book_id: req.params.id },
     });
+
     if (updated) {
       const updatedBook = await Book.findByPk(req.params.id);
       res.status(200).json(updatedBook);
@@ -58,8 +78,9 @@ exports.updateBook = async (req, res) => {
       res.status(404).json({ error: "Book not found" });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+    console.error("Error al actualizar el libro:", err);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 exports.deleteBook = async (req, res) => {
