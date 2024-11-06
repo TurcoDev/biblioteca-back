@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const sectionsController = require('../controllers/sectionsController');
+const sectionsController = require('../controllers/sectionController');
 
-// Rutas de sections
+// Rutas de secciones
 router.get('/', sectionsController.getAllSections);
 router.get('/:id', sectionsController.getSectionById);
 router.post('/', sectionsController.createSection);
