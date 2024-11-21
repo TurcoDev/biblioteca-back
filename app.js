@@ -6,10 +6,19 @@ const bodyParser = require('body-parser');
 const conexion = require('./src/config/db.js')
 const app = express();
 
+
+// Configura CORS para permitir tu dominio
+const corsOptions = {
+    origin: [
+        'http://localhost:5173', // Dominio para desarrollo
+        'https://biblioteca-front.web.app', // Dominio desplegado
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  };
+
 // Configurar CORS
-app.use(cors({
-    origin: 'http://localhost:5173' // URL donde corre Vite React
-}));
+app.use(cors(corsOptions));
 
 // Middleware para parsear JSON en las solicitudes
 app.use(express.json());
